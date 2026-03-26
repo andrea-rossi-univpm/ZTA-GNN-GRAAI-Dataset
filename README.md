@@ -154,8 +154,24 @@ echo "cce55ca294323909a5ea8f99e97d581ebae74d9964999d58e0f466a21747cc1d  export_2
 
 ## ETL Pipeline and Dataset Processing
 
-**TODO Filippo** 
-********************************************************************************
+A set of transformations was applied in order to extract the relevant fields required for the subsequent processing stages from the considerable amount of data collected. In many cases, the same event is recorded by multiple sources, resulting in redundant information. Therefore, a correlation process is used to consolidate these events into a single, unified log. The transformations applied to the data are designed to generate a list of complete individual requests by aggregation on common parameters, including IP, User, and a restricted time window. This approach makes it possible to group all events performed by a user during a single session in chronological order. The aim is to produce a simplified format that includes only the essential features required for graph construction and for supporting the computation of trustness weights. Therefore, aggregated events are separated into individual logs, containing the corresponding user, IP, and relevant information, including the classification label and the requested resource. Device-related information is linked by matching the extracted IP and timestamp with devices detected on the network at the same time through fingerprinting. If such information is unavailable, a fallback mechanism searches for the data in captive portal. This pre-processed dataset contains 281.692 records, of which 141.123 are legitimate and 140.569 are malicious.
+
+## Request Final Dataset Composition
+
+| Field        | Type     | Description |
+|--------------|----------|-------------|
+| user         | String   | Identifier of the user who generated the event. |
+| ip           | String   | Associated source IP address. |
+| role         | String   | User role at the time of the event; if unavailable, the default value *User* is assigned. |
+| mac          | String   | MAC address of the device associated with the event. |
+| hostname     | String   | Hostname of the device. |
+| certificate  | String   | Client certificate used during the connection. |
+| source       | String   | Source of the event. |
+| event_time   | DateTime | Timestamp of the event. |
+| event_type   | String   | Type of the event. |
+| resource     | String   | Resource involved in the event. |
+| suspicious   | Boolean  | Indicator of suspicious behavior; classification label. |
+| status_code  | Integer  | HTTP status code associated with the event. |
 
 ## Citation
 
