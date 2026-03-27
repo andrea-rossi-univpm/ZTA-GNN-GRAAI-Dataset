@@ -173,6 +173,18 @@ A set of transformations was applied in order to extract the relevant fields req
 | suspicious   | Boolean  | Indicator of suspicious behavior; classification label. |
 | status_code  | Integer  | HTTP status code associated with the event. |
 
+## How to replicate the experiment
+
+To replicate the experiments conducted on the various models, the scripts used are provided in the [`models`](./models) folder.
+
+To use the GNN models, the ([`CSV dataset`](./CSV_Inventory/Golden_Sample_CSV/export_22Dec2025_010633.csv.7z)) must first be converted into JSON format using the [`csv_to_json.py`](./CSV_Inventory/csv_to_json.py) script. This allows the dataset to be properly read and utilized by the main script [`gnn_model_training.py`](./models/gnn_models_training.py) for correlation, graph construction and training.
+
+The different models can be compared simply by replacing the class in the script with one of those available in [`model_copies`](./models/model_copies.txt).
+
+For the other three baselines ([`MLP`](./models/mlp.py), [`CNN`](./models/cnn.py), and [`XGBoost`](./models/xg.py))their respective scripts can be executed directly, as they rely on [`final_output_correlated.json`](./CSV_Inventory/final_output_correlated.zip) file.
+
+An important note is that the extracted datasets must be placed in the same path as the scripts in order to be correctly read.
+
 ## Citation
 
 If you use this dataset in your research, please cite both theses:

@@ -1,0 +1,346 @@
+# GCN COMPLETE 
+class TrustSAGE(nn.Module):
+    def __init__(self, in_channels, hidden_channels):
+        super().__init__()
+        self.conv1 = GCNConv(in_channels, hidden_channels)
+        self.conv2 = GCNConv(hidden_channels, hidden_channels)
+        self.bn1 = GraphNorm(hidden_channels) # stabilizing training
+        self.bn2 = GraphNorm(hidden_channels)
+        self.edge_embed = nn.Linear(1, hidden_channels)
+        self.concat_norm = nn.LayerNorm(hidden_channels*7)
+        self.fc = nn.Linear(hidden_channels*7, 1)  # concat user-device-network-resource
+        self.dropout = nn.Dropout(0.3) 
+        self.dropout_combined = nn.Dropout(0.3)
+
+    def forward(self, data, triplets):
+        x, edge_index, edge_weight = data.x, data.edge_index, data.weight
+        # GNN propagation
+        x = self.conv1(x, edge_index, edge_weight)
+        x = self.bn1(x) 
+        x = F.relu(x)
+        x = self.dropout(x)
+
+        x = self.conv2(x, edge_index, edge_weight)
+        x = self.bn2(x) 
+        x = F.relu(x)
+        x = self.dropout(x)
+
+        # Estrai embedding dei nodi coinvolti nelle richieste
+        u = triplets[:, 0]
+        d = triplets[:, 1]
+        n = triplets[:, 2]
+        r = triplets[:, 3]
+
+        u_embed = x[u]
+        d_embed = x[d]
+        n_embed = x[n]
+        r_embed = x[r]
+
+        w_ud = get_edge_weights_batch(edge_index, edge_weight, u, d)
+        w_dn = get_edge_weights_batch(edge_index, edge_weight, d, n)
+        w_nr = get_edge_weights_batch(edge_index, edge_weight, n, r)
+
+        w_ud_embed = self.edge_embed(w_ud)
+        w_dn_embed = self.edge_embed(w_dn)
+        w_nr_embed = self.edge_embed(w_nr)
+
+        # Concatena embedding
+        combined = torch.cat([u_embed, d_embed, n_embed, r_embed, w_ud_embed, w_dn_embed,w_nr_embed], dim=1)
+        combined = self.concat_norm(combined)
+        combined = self.dropout_combined(combined)
+        out = self.fc(combined)
+        return out.squeeze()
+    
+# GCN without edge weight in embedding 
+class TrustSAGE(nn.Module):
+    def __init__(self, in_channels, hidden_channels):
+        super().__init__()
+        self.conv1 = GCNConv(in_channels, hidden_channels)
+        self.conv2 = GCNConv(hidden_channels, hidden_channels)
+        self.bn1 = GraphNorm(hidden_channels) # stabilizing training
+        self.bn2 = GraphNorm(hidden_channels)
+        self.edge_embed = nn.Linear(1, hidden_channels)
+        self.concat_norm = nn.LayerNorm(hidden_channels*7)
+        self.fc = nn.Linear(hidden_channels*7, 1)  # concat user-device-network-resource
+        self.dropout = nn.Dropout(0.3) 
+        self.dropout_combined = nn.Dropout(0.3)
+
+    def forward(self, data, triplets):
+        x, edge_index, edge_weight = data.x, data.edge_index, data.weight
+        # GNN propagation
+        x = self.conv1(x, edge_index)
+        x = self.bn1(x) 
+        x = F.relu(x)
+        x = self.dropout(x)
+
+        x = self.conv2(x, edge_index)
+        x = self.bn2(x) 
+        x = F.relu(x)
+        x = self.dropout(x)
+
+        # Estrai embedding dei nodi coinvolti nelle richieste
+        u = triplets[:, 0]
+        d = triplets[:, 1]
+        n = triplets[:, 2]
+        r = triplets[:, 3]
+
+        u_embed = x[u]
+        d_embed = x[d]
+        n_embed = x[n]
+        r_embed = x[r]
+
+        w_ud = get_edge_weights_batch(edge_index, edge_weight, u, d)
+        w_dn = get_edge_weights_batch(edge_index, edge_weight, d, n)
+        w_nr = get_edge_weights_batch(edge_index, edge_weight, n, r)
+
+        w_ud_embed = self.edge_embed(w_ud)
+        w_dn_embed = self.edge_embed(w_dn)
+        w_nr_embed = self.edge_embed(w_nr)
+
+        # Concatena embedding
+        combined = torch.cat([u_embed, d_embed, n_embed, r_embed, w_ud_embed, w_dn_embed,w_nr_embed], dim=1)
+        combined = self.concat_norm(combined)
+        combined = self.dropout_combined(combined)
+        out = self.fc(combined)
+        return out.squeeze()
+    
+# GCN without edge weight 
+class TrustSAGE(nn.Module):
+    def __init__(self, in_channels, hidden_channels):
+        super().__init__()
+        self.conv1 = GCNConv(in_channels, hidden_channels)
+        self.conv2 = GCNConv(hidden_channels, hidden_channels)
+        self.bn1 = GraphNorm(hidden_channels) # stabilizing training
+        self.bn2 = GraphNorm(hidden_channels)
+        self.edge_embed = nn.Linear(1, hidden_channels)
+        self.concat_norm = nn.LayerNorm(hidden_channels*4)
+        self.fc = nn.Linear(hidden_channels*4, 1)  # concat user-device-network-resource
+        self.dropout = nn.Dropout(0.3) 
+        self.dropout_combined = nn.Dropout(0.3)
+
+    def forward(self, data, triplets):
+        x, edge_index, edge_weight = data.x, data.edge_index, data.weight
+        # GNN propagation
+        x = self.conv1(x, edge_index)
+        x = self.bn1(x) 
+        x = F.relu(x)
+        x = self.dropout(x)
+
+        x = self.conv2(x, edge_index)
+        x = self.bn2(x) 
+        x = F.relu(x)
+        x = self.dropout(x)
+
+        # Estrai embedding dei nodi coinvolti nelle richieste
+        u = triplets[:, 0]
+        d = triplets[:, 1]
+        n = triplets[:, 2]
+        r = triplets[:, 3]
+
+        u_embed = x[u]
+        d_embed = x[d]
+        n_embed = x[n]
+        r_embed = x[r]
+
+        # Concatena embedding
+        combined = torch.cat([u_embed, d_embed, n_embed, r_embed], dim=1)
+        combined = self.concat_norm(combined)
+        combined = self.dropout_combined(combined)
+        out = self.fc(combined)
+        return out.squeeze()
+    
+# GraphSage 
+class TrustSAGE(nn.Module):
+    def __init__(self, in_channels, hidden_channels):
+        super().__init__()
+        self.conv1 = SAGEConv(in_channels, hidden_channels)
+        self.conv2 = SAGEConv(hidden_channels, hidden_channels)
+        self.bn1 = GraphNorm(hidden_channels) # stabilizing training
+        self.bn2 = GraphNorm(hidden_channels)
+        self.edge_embed = nn.Linear(1, hidden_channels)
+        self.concat_norm = nn.LayerNorm(hidden_channels*7)
+        self.fc = nn.Linear(hidden_channels*7, 1)  # concat user-device-network-resource
+        self.dropout = nn.Dropout(0.3) 
+        self.dropout_combined = nn.Dropout(0.3)
+
+    def forward(self, data, triplets):
+        x, edge_index, edge_weight = data.x, data.edge_index, data.weight
+        # GNN propagation
+        x = self.conv1(x, edge_index)
+        x = self.bn1(x) 
+        x = F.relu(x)
+        x = self.dropout(x)
+
+        x = self.conv2(x, edge_index)
+        x = self.bn2(x) 
+        x = F.relu(x)
+        x = self.dropout(x)
+
+        # Estrai embedding dei nodi coinvolti nelle richieste
+        u = triplets[:, 0]
+        d = triplets[:, 1]
+        n = triplets[:, 2]
+        r = triplets[:, 3]
+
+        u_embed = x[u]
+        d_embed = x[d]
+        n_embed = x[n]
+        r_embed = x[r]
+
+        w_ud = get_edge_weights_batch(edge_index, edge_weight, u, d)
+        w_dn = get_edge_weights_batch(edge_index, edge_weight, d, n)
+        w_nr = get_edge_weights_batch(edge_index, edge_weight, n, r)
+
+        w_ud_embed = self.edge_embed(w_ud)
+        w_dn_embed = self.edge_embed(w_dn)
+        w_nr_embed = self.edge_embed(w_nr)
+
+        # Concatena embedding
+        combined = torch.cat([u_embed, d_embed, n_embed, r_embed, w_ud_embed, w_dn_embed,w_nr_embed], dim=1)
+        combined = self.concat_norm(combined)
+        combined = self.dropout_combined(combined)
+        out = self.fc(combined)
+        return out.squeeze()
+    
+# GraphSage without edge weight 
+class TrustSAGE(nn.Module):
+    def __init__(self, in_channels, hidden_channels):
+        super().__init__()
+        self.conv1 = SAGEConv(in_channels, hidden_channels)
+        self.conv2 = SAGEConv(hidden_channels, hidden_channels)
+        self.bn1 = GraphNorm(hidden_channels) # stabilizing training
+        self.bn2 = GraphNorm(hidden_channels)
+        self.edge_embed = nn.Linear(1, hidden_channels)
+        self.concat_norm = nn.LayerNorm(hidden_channels*4)
+        self.fc = nn.Linear(hidden_channels*4, 1)  # concat user-device-network-resource
+        self.dropout = nn.Dropout(0.3) 
+        self.dropout_combined = nn.Dropout(0.3)
+
+    def forward(self, data, triplets):
+        x, edge_index, edge_weight = data.x, data.edge_index, data.weight
+        # GNN propagation
+        x = self.conv1(x, edge_index)
+        x = self.bn1(x) 
+        x = F.relu(x)
+        x = self.dropout(x)
+
+        x = self.conv2(x, edge_index)
+        x = self.bn2(x) 
+        x = F.relu(x)
+        x = self.dropout(x)
+
+        # Estrai embedding dei nodi coinvolti nelle richieste
+        u = triplets[:, 0]
+        d = triplets[:, 1]
+        n = triplets[:, 2]
+        r = triplets[:, 3]
+
+        u_embed = x[u]
+        d_embed = x[d]
+        n_embed = x[n]
+        r_embed = x[r]
+
+        # Concatena embedding
+        combined = torch.cat([u_embed, d_embed, n_embed, r_embed], dim=1)
+        combined = self.concat_norm(combined)
+        combined = self.dropout_combined(combined)
+        out = self.fc(combined)
+        return out.squeeze()
+    
+# GAT 
+class TrustSAGE(nn.Module):
+    def __init__(self, in_channels, hidden_channels, heads=4):
+        super().__init__()
+        self.conv1 = GATConv(in_channels, hidden_channels,  heads=heads, concat=False)
+        self.conv2 = GATConv(hidden_channels, hidden_channels,  heads=heads, concat=False)
+        self.bn1 = GraphNorm(hidden_channels) # stabilizing training
+        self.bn2 = GraphNorm(hidden_channels)
+        self.edge_embed = nn.Linear(1, hidden_channels)
+        self.concat_norm = nn.LayerNorm(hidden_channels*7)
+        self.fc = nn.Linear(hidden_channels*7, 1)  # concat user-device-network-resource
+        self.dropout = nn.Dropout(0.3) 
+        self.dropout_combined = nn.Dropout(0.3)
+
+    def forward(self, data, triplets):
+        x, edge_index, edge_weight = data.x, data.edge_index, data.weight
+        # GNN propagation
+        x = self.conv1(x, edge_index)
+        x = self.bn1(x) 
+        x = F.relu(x)
+        x = self.dropout(x)
+
+        x = self.conv2(x, edge_index)
+        x = self.bn2(x) 
+        x = F.relu(x)
+        x = self.dropout(x)
+
+        # Estrai embedding dei nodi coinvolti nelle richieste
+        u = triplets[:, 0]
+        d = triplets[:, 1]
+        n = triplets[:, 2]
+        r = triplets[:, 3]
+
+        u_embed = x[u]
+        d_embed = x[d]
+        n_embed = x[n]
+        r_embed = x[r]
+
+        w_ud = get_edge_weights_batch(edge_index, edge_weight, u, d)
+        w_dn = get_edge_weights_batch(edge_index, edge_weight, d, n)
+        w_nr = get_edge_weights_batch(edge_index, edge_weight, n, r)
+
+        w_ud_embed = self.edge_embed(w_ud)
+        w_dn_embed = self.edge_embed(w_dn)
+        w_nr_embed = self.edge_embed(w_nr)
+
+        # Concatena embedding
+        combined = torch.cat([u_embed, d_embed, n_embed, r_embed, w_ud_embed, w_dn_embed,w_nr_embed], dim=1)
+        combined = self.concat_norm(combined)
+        combined = self.dropout_combined(combined)
+        out = self.fc(combined)
+        return out.squeeze()
+    
+# GAT without edge weight 
+class TrustSAGE(nn.Module):
+    def __init__(self, in_channels, hidden_channels, heads=4):
+        super().__init__()
+        self.conv1 = GATConv(in_channels, hidden_channels,  heads=heads, concat=False)
+        self.conv2 = GATConv(hidden_channels, hidden_channels,  heads=heads, concat=False)
+        self.bn1 = GraphNorm(hidden_channels) # stabilizing training
+        self.bn2 = GraphNorm(hidden_channels)
+        self.edge_embed = nn.Linear(1, hidden_channels)
+        self.concat_norm = nn.LayerNorm(hidden_channels*4)
+        self.fc = nn.Linear(hidden_channels*4, 1)  # concat user-device-network-resource
+        self.dropout = nn.Dropout(0.3) 
+        self.dropout_combined = nn.Dropout(0.3)
+
+    def forward(self, data, triplets):
+        x, edge_index, edge_weight = data.x, data.edge_index, data.weight
+        # GNN propagation
+        x = self.conv1(x, edge_index)
+        x = self.bn1(x) 
+        x = F.relu(x)
+        x = self.dropout(x)
+
+        x = self.conv2(x, edge_index)
+        x = self.bn2(x) 
+        x = F.relu(x)
+        x = self.dropout(x)
+
+        # Estrai embedding dei nodi coinvolti nelle richieste
+        u = triplets[:, 0]
+        d = triplets[:, 1]
+        n = triplets[:, 2]
+        r = triplets[:, 3]
+
+        u_embed = x[u]
+        d_embed = x[d]
+        n_embed = x[n]
+        r_embed = x[r]
+
+        # Concatena embedding
+        combined = torch.cat([u_embed, d_embed, n_embed, r_embed], dim=1)
+        combined = self.concat_norm(combined)
+        combined = self.dropout_combined(combined)
+        out = self.fc(combined)
+        return out.squeeze()
