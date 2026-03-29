@@ -85,9 +85,9 @@ The balanced dataset contains **347,768** events: **207,131** benign and **140,6
 | Database Backup | 90 | 5 | 85 | 2.0 h |
 | OPNsense Lighttpd | 57 | 0 | 57 | 6.3 h |
 | OPNsense Unbound | 33 | 0 | 33 | 2.4 h |
-| Log | 31 | 1 | 30 | 3.3 h |
+| Security Log | 31 | 1 | 30 | 3.3 h |
 | OPNsense Captiveportal | 19 | 0 | 19 | 5.1 h |
-| Error | 19 | 0 | 19 | 2.3 h |
+| Apache Error | 19 | 0 | 19 | 2.3 h |
 | OPNsense Dnsmasq | 6 | 0 | 6 | 2.4 h |
 | **Total** | **347,768** | **140,637** | **207,131** | |
 
