@@ -43,7 +43,7 @@ Cross-layer consistency is the primary discriminating feature for trust scoring 
 | File | SHA-256 | Size | Description |
 |------|---------|------|-------------|
 | `export_22Dec2025_010633.csv` | `cce55ca294323909a5ea8f99e97d581ebae74d9964999d58e0f466a21747cc1d` | 838.1 MB | Raw Splunk export, 347,768 events |
-| `export_22Dec2025_010633.csv.7z` | `9e7a5995797e3310a00a7684047ea298002328819599c65831b6d30c5d81d5f0` | — | 7-Zip compressed archive of the CSV |
+|  [`export_22Dec2025_010633.csv.7z`](./CSV_Inventory/Golden_Sample_CSV/export_22Dec2025_010633.csv.7z)  | `9e7a5995797e3310a00a7684047ea298002328819599c65831b6d30c5d81d5f0` | 24.1 MB | 7-Zip compressed archive of the CSV (using ULTRA compression), achieving a 97% reduction in size. |
 
 ### CSV Schema
 
