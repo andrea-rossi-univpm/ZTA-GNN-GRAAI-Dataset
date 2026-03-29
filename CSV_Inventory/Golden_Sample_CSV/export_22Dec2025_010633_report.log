@@ -1,0 +1,167 @@
+==========================================================================================
+SPLUNK CSV REPORT
+==========================================================================================
+File:               export_22Dec2025_010633.csv
+Path:               C:\Users\user\Desktop\ZTA-GNN-GRAAI-Dataset-master\CSV_Inventory\Golden_Sample_CSV\export_22Dec2025_010633.csv
+File size:          799.31 MB
+CSV rows:           347,768
+Report generated:   2026-03-30 00:43:13
+------------------------------------------------------------------------------------------
+Total events:       347,768
+Suspicious:         140,637 (40.4%)
+Non-suspicious:     207,131 (59.6%)
+Time window:        2025-12-21 18:43:48 -> 2025-12-22 01:06:32
+Duration:           6.4 h (22964.00 sec)
+
+------------------------------------------------------------------------------------------
+SUMMARY: HOST x SOURCE x SOURCETYPE
+------------------------------------------------------------------------------------------
+Host                 Source                                       Evt     Sus Sourcetype                   Time Range
+---------------------------------------------------------------------------------------------------------------------
+VM-WS-2025           Blazor:2.0.0.2:ApplicationAudit           111218   12035 application:model            18:55:36 - 01:04:42
+VM-WS-2025           Blazor:2.0.0.2:ApplicationAudit            89002   89002 security:badraequest         20:01:21 - 00:49:09
+OPNsense25.7.6       tcp:opnsense:514                           52379       0 opnsense:filterlog           18:43:48 - 01:06:32
+VM-WS-2025           Blazor:2.0.0.2:ApplicationAudit            43072    1613 application:chat             20:04:16 - 00:34:27
+VM-WS-2025           Blazor:2.0.0.2:ApplicationAudit            12090   12090 security:honeypot            22:33:34 - 00:34:53
+VM-WS-2025           Blazor:2.0.0.2:ApplicationAudit            10804   10804 application:exception        20:03:24 - 00:49:09
+VM-WS-2025           Blazor:2.0.0.2:ApplicationAudit             8040    8040 security:alert               22:33:34 - 00:34:53
+OPNsense25.7.6       tcp:opnsense:514                            4888       0 opnsense:syslog              18:44:00 - 01:06:22
+VM-WS-2025           Blazor:2.0.0.2:ApplicationAudit             3390    3390 security:ratelimit           22:33:43 - 00:34:31
+OPNsense25.7.6       tcp:opnsense:514                            2635       0 opnsense:suricata            18:49:05 - 01:03:31
+VM-WS-2025           Blazor:2.0.0.2:ApplicationAudit             2010    1981 application:document         22:33:33 - 00:34:35
+OPNsense25.7.6       tcp:opnsense:514                            1709       0 opnsense:ntpd                18:43:57 - 01:06:32
+ubuntu               p0f                                         1580       0 fingerprint                  20:01:12 - 01:06:31
+ubuntu               /var/log/snort/snort.u2.1766351931          1515       0 snort                        22:20:16 - 23:59:41
+VM-WS-2025           Blazor:2.0.0.2:ApplicationAudit              995     995 security:forbidden           18:55:37 - 00:34:46
+VM-WS-2025           Blazor:2.0.0.2:AuthAudit                     626     606 security:jwt:attack          22:32:25 - 00:42:55
+ubuntu               /var/log/snort/snort.u2.1766358003           547       0 snort                        00:00:36 - 01:05:52
+ubuntu               /var/log/snort/snort.u2.1766343454           433       0 snort                        19:58:59 - 21:54:45
+VM-WS-2025           Blazor:2.0.0.2:AuthAudit                     243      36 security:audit               20:03:25 - 00:50:32
+VM-WS-2025           Blazor:2.0.0.2:AuthAudit                     165      31 fingerprint                  18:55:36 - 00:52:29
+VM-WS-2025           C:\Windows\System32\LogFiles\HTTPERR\httperr1.log     120       0 iis:httperr                  18:47:37 - 01:00:02
+VM-WS-2025           Blazor:2.0.0.2:ApplicationAudit               90       5 application:db-backup        22:33:34 - 00:34:14
+OPNsense25.7.6       tcp:opnsense:514                              57       0 opnsense:lighttpd            18:45:31 - 01:05:01
+OPNsense25.7.6       tcp:opnsense:514                              33       0 opnsense:unbound             19:58:49 - 22:19:58
+VM-WS-2025           Blazor:2.0.0.2:ApplicationAudit               31       1 security:log                 21:15:31 - 00:34:13
+opnsense.internal    captiveportal                                 29       0 fingerprint                  19:59:09 - 00:33:09
+OPNsense25.7.6       tcp:opnsense:514                              19       0 opnsense:captiveportal       19:58:56 - 01:04:23
+VM-WS-2025           C:\xampp\apache\logs\error.log                19       0 apache:error                 19:58:14 - 22:15:17
+VM-WS-2025           Blazor:2.0.0.2:AuthAudit                       8       8 security:jwt                 22:32:25 - 00:40:18
+OPNsense25.7.6       tcp:opnsense:514                               6       0 opnsense:dnsmasq             19:58:49 - 22:19:56
+VM-WS-2025           Blazor:2.0.0.2:AuthAudit                       6       0 auth:user                    20:03:30 - 20:03:46
+ubuntu               /var/log/snort/snort.alert.fast                6       0 snort                        20:56:57 - 21:11:54
+VM-7-SP1             HEC-Diagnostic:1.0.0.1                         2       0 fingerprint                  19:59:20 - 23:17:29
+VM-WS-2008-R2        HEC-Diagnostic:1.0.0.1                         1       0 fingerprint                  23:16:53 - 23:16:53
+
+------------------------------------------------------------------------------------------
+PER-HOST
+------------------------------------------------------------------------------------------
+Host                   Events Suspicious      First       Last     Duration
+---------------------------------------------------------------------------
+VM-WS-2025             281929     140637   18:47:37   01:04:42        6.3 h
+OPNsense25.7.6          61726          0   18:43:48   01:06:32        6.4 h
+ubuntu                   4081          0   19:58:59   01:06:31        5.1 h
+opnsense.internal          29          0   19:59:09   00:33:09        4.6 h
+VM-7-SP1                    2          0   19:59:20   23:17:29        3.3 h
+VM-WS-2008-R2               1          0   23:16:53   23:16:53       <1 sec
+
+------------------------------------------------------------------------------------------
+PER-SOURCETYPE
+------------------------------------------------------------------------------------------
+Sourcetype                       Events Suspicious      First       Last     Duration
+-------------------------------------------------------------------------------------
+application:model                111218      12035   18:55:36   01:04:42        6.2 h
+security:badraequest              89002      89002   20:01:21   00:49:09        4.8 h
+opnsense:filterlog                52379          0   18:43:48   01:06:32        6.4 h
+application:chat                  43072       1613   20:04:16   00:34:27        4.5 h
+security:honeypot                 12090      12090   22:33:34   00:34:53        2.0 h
+application:exception             10804      10804   20:03:24   00:49:09        4.8 h
+security:alert                     8040       8040   22:33:34   00:34:53        2.0 h
+opnsense:syslog                    4888          0   18:44:00   01:06:22        6.4 h
+security:ratelimit                 3390       3390   22:33:43   00:34:31        2.0 h
+opnsense:suricata                  2635          0   18:49:05   01:03:31        6.2 h
+snort                              2501          0   19:58:59   01:05:52        5.1 h
+application:document               2010       1981   22:33:33   00:34:35        2.0 h
+fingerprint                        1777         31   18:55:36   01:06:31        6.2 h
+opnsense:ntpd                      1709          0   18:43:57   01:06:32        6.4 h
+security:forbidden                  995        995   18:55:37   00:34:46        5.7 h
+security:jwt:attack                 626        606   22:32:25   00:42:55        2.2 h
+security:audit                      243         36   20:03:25   00:50:32        4.8 h
+iis:httperr                         120          0   18:47:37   01:00:02        6.2 h
+application:db-backup                90          5   22:33:34   00:34:14        2.0 h
+opnsense:lighttpd                    57          0   18:45:31   01:05:01        6.3 h
+opnsense:unbound                     33          0   19:58:49   22:19:58        2.4 h
+security:log                         31          1   21:15:31   00:34:13        3.3 h
+opnsense:captiveportal               19          0   19:58:56   01:04:23        5.1 h
+apache:error                         19          0   19:58:14   22:15:17        2.3 h
+security:jwt                          8          8   22:32:25   00:40:18        2.1 h
+opnsense:dnsmasq                      6          0   19:58:49   22:19:56        2.4 h
+auth:user                             6          0   20:03:30   20:03:46       16 sec
+
+------------------------------------------------------------------------------------------
+TRAFFIC CLASS
+------------------------------------------------------------------------------------------
+Traffic Class                  Events Suspicious      First       Last     Duration
+-----------------------------------------------------------------------------------
+Model                          111218      12035   18:55:36   01:04:42        6.2 h
+Bad Request                     89002      89002   20:01:21   00:49:09        4.8 h
+OPNsense Filter Log             52379          0   18:43:48   01:06:32        6.4 h
+Chat                            43072       1613   20:04:16   00:34:27        4.5 h
+Honeypot                        12090      12090   22:33:34   00:34:53        2.0 h
+Exception                       10804      10804   20:03:24   00:49:09        4.8 h
+Alert                            8040       8040   22:33:34   00:34:53        2.0 h
+OPNsense Syslog                  4888          0   18:44:00   01:06:22        6.4 h
+Rate Limit                       3390       3390   22:33:43   00:34:31        2.0 h
+OPNsense Suricata                2635          0   18:49:05   01:03:31        6.2 h
+Snort                            2501          0   19:58:59   01:05:52        5.1 h
+Document                         2010       1981   22:33:33   00:34:35        2.0 h
+OPNsense NTPd                    1709          0   18:43:57   01:06:32        6.4 h
+Network Fingerprint (p0f)        1580          0   20:01:12   01:06:31        5.1 h
+Forbidden                         995        995   18:55:37   00:34:46        5.7 h
+Auth: JWT Attack                  626        606   22:32:25   00:42:55        2.2 h
+Auth: Audit                       243         36   20:03:25   00:50:32        4.8 h
+Authentication                    165         31   18:55:36   00:52:29        5.9 h
+IIS HTTP Error                    120          0   18:47:37   01:00:02        6.2 h
+Database Backup                    90          5   22:33:34   00:34:14        2.0 h
+OPNsense Lighttpd                  57          0   18:45:31   01:05:01        6.3 h
+OPNsense Unbound                   33          0   19:58:49   22:19:58        2.4 h
+Security Log                       31          1   21:15:31   00:34:13        3.3 h
+Captive Portal                     29          0   19:59:09   00:33:09        4.6 h
+OPNsense Captiveportal             19          0   19:58:56   01:04:23        5.1 h
+Error                              19          0   19:58:14   22:15:17        2.3 h
+Auth: JWT                           8          8   22:32:25   00:40:18        2.1 h
+OPNsense Dnsmasq                    6          0   19:58:49   22:19:56        2.4 h
+Auth: User                          6          0   20:03:30   20:03:46       16 sec
+HEC Diagnostic                      3          0   19:59:20   23:17:29        3.3 h
+
+------------------------------------------------------------------------------------------
+DATASET COMPOSITION
+------------------------------------------------------------------------------------------
+Traffic Class                      Events   Suspicious   Not Suspicious     Duration
+------------------------------------------------------------------------------------
+CRUD Operations                    111218        12035            99183        6.2 h
+Bad Request                         89002        89002                0        4.8 h
+OPNsense Filter Log                 52379            0            52379        6.4 h
+Chat                                43072         1613            41459        4.5 h
+Honeypot                            12090        12090                0        2.0 h
+Exception                           10804        10804                0        4.8 h
+Alert                                8040         8040                0        2.0 h
+OPNsense Syslog                      4888            0             4888        6.4 h
+Rate Limit                           3390         3390                0        2.0 h
+OPNsense Suricata                    2635            0             2635        6.2 h
+Snort IDS                            2501            0             2501        5.1 h
+Document                             2010         1981               29        2.0 h
+OPNsense NTPd                        1709            0             1709        6.4 h
+Fingerprint                          1612            0             1612        5.1 h
+Authentication                       1048          681              367        5.9 h
+Forbidden                             995          995                0        5.7 h
+IIS                                   120            0              120        6.2 h
+Database Backup                        90            5               85        2.0 h
+OPNsense Lighttpd                      57            0               57        6.3 h
+OPNsense Unbound                       33            0               33        2.4 h
+Security Log                           31            1               30        3.3 h
+OPNsense Captiveportal                 19            0               19        5.1 h
+Error                                  19            0               19        2.3 h
+OPNsense Dnsmasq                        6            0                6        2.4 h
+------------------------------------------------------------------------------------
+TOTAL                             347,768       140637           207131
