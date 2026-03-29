@@ -12,12 +12,7 @@ This dataset fills that gap.
 
 The dataset was produced as a joint effort across two M.Sc. theses at **Università Politecnica delle Marche** (A.Y. 2024–2025), under the supervision of Prof. Luca Spalazzi and Dr. Gianluca Bonifazi:
 
-| Role | Author | Thesis | Focus |
-|------|--------|--------|-------|
-| **Dataset & Infrastructure** | Andrea Rossi | [*Architettura zero-trust: sistema di identificazione e monitoraggio degli eventi*](https://tesi.univpm.it/handle/20.500.12075/25529) | Design and implementation of the full ZTA cyber-range (network segmentation, NGFW, mini-SOC, Blazor web app with HMAC/SHA-256 integrity pipeline, fingerprinting stack, penetration-testing suite). Generation of both legitimate and malicious traffic streams that compose this dataset. |
-| **GNN Model** | Filippo Bernabucci | [*Architettura Zero-Trust: Rete Neurale a Grafo per classificare le richieste di accesso a risorse*](https://tesi.univpm.it/handle/20.500.12075/25508) | Graph Neural Network (GCN-based) prototype acting as a dynamic Policy Decision Point. The model learns trust scores over a User→Device→Network→Resource graph and classifies access requests as allow/deny, updating trust state incrementally after each decision. Trained and validated on this dataset. |
-
-In short: **Andrea built the range and generated the data; Filippo consumed it to train and evaluate the GNN-based PDP.**
+**The first thesis constructed the range and generated the data; the second thesis used this data to train and evaluate the GNN-based PDP.**
 
 ## Infrastructure Overview
 
@@ -187,25 +182,7 @@ An important note is that the extracted datasets must be placed in the same path
 
 ## Citation
 
-If you use this dataset in your research, please cite both theses:
-
-```bibtex
-@mastersthesis{rossi2025zt,
-  author  = {Rossi, Andrea},
-  title   = {Architettura zero-trust: sistema di identificazione e monitoraggio degli eventi},
-  school  = {Universit\`{a} Politecnica delle Marche},
-  year    = {2025},
-  url     = {https://tesi.univpm.it/handle/20.500.12075/25529}
-}
-
-@mastersthesis{bernabucci2025gnn,
-  author  = {Bernabucci, Filippo},
-  title   = {Architettura Zero-Trust: Rete Neurale a Grafo per classificare le richieste di accesso a risorse},
-  school  = {Universit\`{a} Politecnica delle Marche},
-  year    = {2025},
-  url     = {https://tesi.univpm.it/handle/20.500.12075/25508}
-}
-```
+If you use this dataset in your research, please cite article references.
 
 ## License
 
