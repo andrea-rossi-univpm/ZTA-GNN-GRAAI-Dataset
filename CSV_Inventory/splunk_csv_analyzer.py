@@ -277,6 +277,12 @@ def classify_traffic(source: str, sourcetype: str) -> tuple[str, bool]:
     if category == "iis":
         return f"IIS {subtype_label}", False
 
+    # Catch-all: prefix category when subtype alone is a generic/ambiguous word.
+    # Prevents "Error" (apache:error), "Access" (nginx:access), etc.
+    _GENERIC_SUBLABELS = {"log", "data", "event", "record", "error", "info",
+                          "audit", "access", "alert", "status", "output"}
+    if subtype_label.lower() in _GENERIC_SUBLABELS and category:
+        return f"{category.capitalize()} {subtype_label}", is_security
     return subtype_label, is_security
 
 
@@ -353,6 +359,13 @@ def classify_traffic_lite(source: str, sourcetype: str) -> str:
         return "Snort IDS"
     if st_lo == "tcpdump":
         return "tcpdump"
+
+    # Catch-all: prefix category when subtype alone is a generic/ambiguous word.
+    # Prevents "Error" (apache:error), "Access" (nginx:access), etc.
+    _GENERIC_SUBLABELS = {"log", "data", "event", "record", "error", "info",
+                          "audit", "access", "alert", "status", "output"}
+    if subtype_label.lower() in _GENERIC_SUBLABELS and category:
+        return f"{category.capitalize()} {subtype_label}"
     return subtype_label
 
 
