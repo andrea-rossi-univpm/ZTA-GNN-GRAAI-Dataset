@@ -166,16 +166,19 @@ _COMPOUND_SPLIT = re.compile(r"""
 
 def _humanize(token: str) -> str:
     """Turn a sourcetype token into a human-readable label.
-       'badrequest' → 'Bad Request', 'db-backup' → 'Database Backup'
+       'badrequest' → 'Bad Request', 'db-backup' → 'Database Backup',
+       'jwt:attack' → 'JWT Attack'
     """
-    # Check compound words first (whole token, before splitting on hyphens)
+    # Check compound words first (whole token, before splitting)
     if token.lower() in _COMPOUNDS:
         return _COMPOUNDS[token.lower()]
 
-    # Split on hyphens, then process each part
-    parts = token.replace("_", "-").split("-")
+    # Split on hyphens, underscores, and colons (multi-level subtypes)
+    parts = re.split(r"[-_:]", token)
     words = []
     for part in parts:
+        if not part:
+            continue
         lo = part.lower()
         # Known compound sub-part?
         if lo in _COMPOUNDS:
@@ -234,8 +237,15 @@ def classify_traffic(source: str, sourcetype: str) -> tuple[str, bool]:
                 return "Authentication", False
             return f"Auth: {subtype_label}", is_security
 
-        # ApplicationAudit → label from sourcetype namespace
+        # ApplicationAudit → label from sourcetype namespace.
+        # Guard against generic subtype labels (e.g. security:log → "Log")
+        # that lose category context. Prefix with category when the subtype
+        # token alone is ambiguous.
+        _GENERIC_SUBLABELS = {"log", "data", "event", "record", "error", "info", "audit"}
         if category in ("security", "application"):
+            if subtype_label.lower() in _GENERIC_SUBLABELS:
+                prefix = "Security" if category == "security" else "App"
+                return f"{prefix} {subtype_label}", is_security
             return subtype_label, is_security
         if st_lo == "fingerprint":
             return "App Fingerprint", False
@@ -311,11 +321,18 @@ def classify_traffic_lite(source: str, sourcetype: str) -> str:
         if st_lo == "application:exception":
             return "Exception"
         # security:* → humanized (Bad Request, Honeypot, Rate Limit, ...)
+        # Guard against generic single-word labels losing category context.
+        _GENERIC_SUBLABELS = {"log", "data", "event", "record", "error", "info", "audit"}
         if category == "security":
+            if subtype_label.lower() in _GENERIC_SUBLABELS:
+                return f"Security {subtype_label}"
             return subtype_label
         # fingerprint on ApplicationAudit → App Fingerprint
         if st_lo == "fingerprint":
             return "Fingerprint"
+        if category == "application":
+            if subtype_label.lower() in _GENERIC_SUBLABELS:
+                return f"App {subtype_label}"
         return subtype_label
 
     # Non-Blazor: fingerprint sourcetype (p0f, arp-watch, HEC) → Fingerprint
