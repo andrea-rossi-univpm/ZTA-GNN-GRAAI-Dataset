@@ -124,6 +124,8 @@ python3 splunk_csv_analyzer.py export_22Dec2025_010633.csv
 - `export_22Dec2025_010633_report.log` — plain-text tables (summary, per-host, per-sourcetype, traffic class, dataset composition)
 - `export_22Dec2025_010633_tables.tex` — LaTeX tables ready for inclusion in academic papers (booktabs formatting, security sourcetypes highlighted in `\textcolor{darkred}`)
 
+The output of the script execution is available at: [`export_22Dec2025_010633_report.log`](./CSV_Inventory/Golden_Sample_CSV/export_22Dec2025_010633_report.log)
+
 **Generated tables:**
 1. Summary (Host × Source × Sourcetype)
 2. Per-Host event distribution
